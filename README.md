@@ -2,6 +2,9 @@
 
 Apache Zookeeper Docker container
 
+[Dockerhub repo](https://hub.docker.com/r/christiangda/zookeeper/)
+[Github repo](https://github.com/christiangda/docker-zookeeper)
+
 ### Table of Contents
 
 1. [Description - What the container does and why it is useful](#module-description)
