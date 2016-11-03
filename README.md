@@ -1,4 +1,5 @@
 # docker-zookeeper
+
 Apache Zookeeper Docker container
 
 ### Table of Contents
@@ -23,6 +24,7 @@ to get running if you know about [Docker](https://www.docker.com/) and
 If you are panning use this for Production environments, it is possible, but
 you need a scheduler like [Docker Swarm](https://docs.docker.com/swarm/) or
 [Kubernetes](http://kubernetes.io/).
+
 
 # Setup
 
@@ -68,37 +70,11 @@ docker run --rm -ti \
   christiangda/zookeeper
 ```
 
-If you want to share configuration files from your local computer with the container do the following
-```script
-mkdir -p /tmp/zookeeper/conf
-cat << __EOF__ > /tmp/zookeeper/confconfiguration.xsl
-<?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<xsl:output method="html"/>
-<xsl:template match="configuration">
-<html>
-<body>
-<table border="1">
-<tr>
- <td>name</td>
- <td>value</td>
- <td>description</td>
-</tr>
-<xsl:for-each select="property">
-<tr>
-  <td><a name="{name}"><xsl:value-of select="name"/></a></td>
-  <td><xsl:value-of select="value"/></td>
-  <td><xsl:value-of select="description"/></td>
-</tr>
-</xsl:for-each>
-</table>
-</body>
-</html>
-</xsl:template>
-</xsl:stylesheet>
-__EOF__
+If you want to share configuration files from your local computer with the container do the following:
 
-cat << __EOF__ > /tmp/zookeeper/conf/log4j.properties
+Create a config file for logging properties
+```script
+cat << '__EOF__' > /tmp/zookeeper/conf/log4j.properties
 # Define some default values that can be overridden by system properties
 zookeeper.root.logger=INFO, CONSOLE
 zookeeper.console.threshold=INFO
@@ -143,8 +119,11 @@ log4j.appender.TRACEFILE.layout=org.apache.log4j.PatternLayout
 ### Notice we are including log4j's NDC here (%x)
 log4j.appender.TRACEFILE.layout.ConversionPattern=%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L][%x] - %m%n
 __EOF__
+```
 
-cat << __EOF__ > /tmp/zookeeper/conf/zoo.cfg
+Create a config file for zookeeper
+```script
+cat << '__EOF__' > /tmp/zookeeper/conf/zoo.cfg
 # The number of milliseconds of each tick
 tickTime=2000
 # The number of ticks that the initial
@@ -182,7 +161,9 @@ docker exec -ti <CONTAINER ID from 'docker ps' command> /bin/bash
 
 # Development
 
-If you can build this container, execute the following command
+If you want to cooperate with this project, please visit [my Github Repo](https://github.com/christiangda/docker-zookeeper)
+
+To build this container, execute the following command
 ```script
 docker build --no-cache --rm --tag <your name>/zookeeper
 ```
